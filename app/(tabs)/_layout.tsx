@@ -1,20 +1,28 @@
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
+
+import { IconButton } from "react-native-paper";
 
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
-          title: "Home",
-          // headerTransparent: true,
-          headerShadowVisible: false,
+          title: "PoolPal",
         }}
       />
+
       <Tabs.Screen
-        name="stat"
+        name="transactions"
         options={{
-          title: "Stat",
+          title: "Transactions",
+          headerRight: () => (
+            <IconButton
+              icon="chart-pie"
+              size={20}
+              onPress={() => router.push("/stat/")}
+            />
+          ),
         }}
       ></Tabs.Screen>
     </Tabs>

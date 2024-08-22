@@ -8,12 +8,13 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import carSlice from "./car-slice";
+import transactionSlice from "./transaction-slice";
 
 const rootReducer = combineReducers({
-  car: carSlice.reducer,
+  transaction: transactionSlice.reducer,
 });
 
 const persistConfig = {
