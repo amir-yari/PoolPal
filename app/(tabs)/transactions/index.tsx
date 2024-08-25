@@ -17,9 +17,14 @@ import dayjs from "dayjs";
 
 import { Picker } from "@react-native-picker/picker";
 
-import { useTransactionSelector } from "../../store/hooks";
+import {
+  useFilterDispatch,
+  useFilterSelector,
+  useTransactionSelector,
+} from "../../../store/hooks";
+import { filterActions } from "../../../store/filter-slice";
 
-import Transaction from "../../types/transaction";
+import Transaction from "../../../types/transaction";
 
 const months = Array.from({ length: 12 }, (_, i) =>
   dayjs().month(i).format("MMMM")
@@ -27,6 +32,7 @@ const months = Array.from({ length: 12 }, (_, i) =>
 const years = Array.from({ length: 10 }, (_, i) => dayjs().year() + i);
 
 const Tab = () => {
+  const filterDispatch = useFilterDispatch();
   const router = useRouter();
   const [showPicker, setShowPicker] = useState(false);
 
@@ -44,10 +50,22 @@ const Tab = () => {
 
   const handleMonthChange = (month: string) => {
     setSelectedMonth(month);
+    filterDispatch(
+      filterActions.setFilter({
+        selectedYear: selectedYear.toString(),
+        selectedMonth: month,
+      })
+    );
   };
 
   const handleYearChange = (year: string) => {
     setSelectedYear(parseInt(year));
+    filterDispatch(
+      filterActions.setFilter({
+        selectedYear: year,
+        selectedMonth: selectedMonth,
+      })
+    );
   };
 
   const filterTransactions = () => {
@@ -104,7 +122,7 @@ const Tab = () => {
           .year(selectedYear)
           .format("MMMM, YYYY")}
       </Button>
-      <Card style={{ margin: 16 }}>
+      <Card style={{ margin: 10 }}>
         <Card.Title title={`${selectedMonth}, ${selectedYear} Balance`} />
         <Card.Content>
           <Text variant="titleLarge">${monthBalance.toFixed(2)}</Text>
@@ -119,7 +137,7 @@ const Tab = () => {
           { value: "income", label: "Income" },
           { value: "investment", label: "Investment" },
         ]}
-        style={{ padding: 15 }}
+        style={{ padding: 10 }}
       />
 
       <Modal
@@ -181,7 +199,7 @@ const Tab = () => {
               return (
                 <Card
                   key={transaction.id}
-                  style={{ margin: 16 }}
+                  style={{ margin: 10 }}
                   onLongPress={() => router.push(`/modal/${transaction.id}`)}
                 >
                   <Card.Title
@@ -191,7 +209,7 @@ const Tab = () => {
                     )}`}
                     left={() => <Avatar.Icon icon={icon} size={40} />}
                     right={() => <Text>{`$${transaction.amount}`}</Text>}
-                    rightStyle={{ paddingRight: 10 }}
+                    rightStyle={{ paddingRight: 15 }}
                   />
                 </Card>
               );

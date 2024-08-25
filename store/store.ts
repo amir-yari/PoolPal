@@ -12,9 +12,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import transactionSlice from "./transaction-slice";
+import filterSlice from "./filter-slice";
 
 const rootReducer = combineReducers({
   transaction: transactionSlice.reducer,
+  filter: filterSlice.reducer,
 });
 
 const persistConfig = {

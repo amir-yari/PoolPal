@@ -1,14 +1,22 @@
-import { router, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 
-import { IconButton } from "react-native-paper";
+import { Avatar } from "react-native-paper";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+    <Tabs initialRouteName="poolPal">
       <Tabs.Screen
-        name="index"
+        name="poolPal"
         options={{
           title: "PoolPal",
+          headerShown: false,
+          tabBarIcon: () => (
+            <Avatar.Icon
+              icon={"home"}
+              size={40}
+              style={{ backgroundColor: "white", marginTop: 10 }}
+            />
+          ),
         }}
       />
 
@@ -16,15 +24,16 @@ export default function TabLayout() {
         name="transactions"
         options={{
           title: "Transactions",
-          headerRight: () => (
-            <IconButton
-              icon="chart-pie"
-              size={20}
-              onPress={() => router.push("/stat/")}
+          headerShown: false,
+          tabBarIcon: () => (
+            <Avatar.Icon
+              icon={"cash"}
+              size={40}
+              style={{ backgroundColor: "white", marginTop: 10 }}
             />
           ),
         }}
-      ></Tabs.Screen>
+      />
     </Tabs>
   );
 }

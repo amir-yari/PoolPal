@@ -11,3 +11,6 @@ type DispatchFunction = () => AppDispatch;
 export const useTransactionDispatch: DispatchFunction = useDispatch;
 export const useTransactionSelector: TypedUseSelectorHook<RootState> =
   useSelector;
+
+export const useFilterDispatch: DispatchFunction = useDispatch;
+export const useFilterSelector: TypedUseSelectorHook<RootState> = useSelector;

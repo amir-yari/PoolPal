@@ -34,9 +34,7 @@ export const transactionSlice = createSlice({
       state.items.push(newTransaction);
 
       state.items.sort((a, b) => {
-        const dayA = dayjs(a.date).date();
-        const dayB = dayjs(b.date).date();
-        return dayB - dayA;
+        return dayjs(b.date).valueOf() - dayjs(a.date).valueOf();
       });
     },
 

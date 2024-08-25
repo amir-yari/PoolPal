@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
-import { View, ScrollView, Keyboard } from "react-native";
-
+import { useState } from "react";
+import { View, ScrollView, Keyboard, StyleSheet } from "react-native";
 import {
   Button,
   SegmentedButtons,
@@ -9,20 +7,15 @@ import {
   Text,
   IconButton,
 } from "react-native-paper";
-
 import { Formik } from "formik";
-
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
-
 import { useTransactionDispatch, useTransactionSelector } from "../store/hooks";
 import { transactionActions } from "../store/transaction-slice";
-
 import { useRouter, useLocalSearchParams } from "expo-router";
 
 const TransactionsForm = () => {
   const router = useRouter();
-
   const { id } = useLocalSearchParams();
   const isEditing = Boolean(id);
   const transaction = useTransactionSelector((state) =>
@@ -58,7 +51,10 @@ const TransactionsForm = () => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" className="p-8">
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={styles.container}
+    >
       <Formik
         initialValues={{
           type: transaction?.type || "expense",
@@ -77,24 +73,16 @@ const TransactionsForm = () => {
           setFieldValue,
           values,
         }) => (
-          <View className="p-8">
+          <View style={styles.form}>
             <SegmentedButtons
               value={values.type}
               onValueChange={handleChange("type")}
               buttons={[
-                {
-                  value: "expense",
-                  label: "Expense",
-                },
-                {
-                  value: "income",
-                  label: "Income",
-                },
-                {
-                  value: "investment",
-                  label: "Investment",
-                },
+                { value: "expense", label: "Expense" },
+                { value: "income", label: "Income" },
+                { value: "investment", label: "Investment" },
               ]}
+              style={styles.segmentedButtons}
             />
             <TextInput
               onChangeText={handleChange("title")}
@@ -103,6 +91,7 @@ const TransactionsForm = () => {
               placeholder="E.g. Food"
               label="Title"
               mode="outlined"
+              style={styles.input}
             />
             <TextInput
               onChangeText={handleChange("amount")}
@@ -112,15 +101,17 @@ const TransactionsForm = () => {
               label="Amount"
               keyboardType="numeric"
               mode="outlined"
+              style={styles.input}
             />
 
-            <Text>Date:</Text>
+            <Text style={styles.label}>Date:</Text>
             <Button
               mode="outlined"
               onPress={() => {
                 setShowCalendar(true);
                 Keyboard.dismiss();
               }}
+              style={styles.dateButton}
             >
               {dayjs(values.date).format("MMM DD, YYYY")}
             </Button>
@@ -132,15 +123,18 @@ const TransactionsForm = () => {
                   setShowCalendar(false);
                 }}
                 markedDates={{
-                  [values.date]: {
-                    selected: true,
-                  },
+                  [values.date]: { selected: true },
                 }}
                 enableSwipeMonths={true}
+                style={styles.calendar}
               />
             )}
 
-            <Button onPress={() => handleSubmit()} mode="contained">
+            <Button
+              onPress={() => handleSubmit()}
+              mode="contained"
+              style={styles.submitButton}
+            >
               {isEditing ? "Save" : "Add"}
             </Button>
             {isEditing && (
@@ -148,6 +142,7 @@ const TransactionsForm = () => {
                 icon="delete"
                 onPress={() => handleDelete()}
                 mode="contained"
+                style={styles.deleteButton}
               />
             )}
           </View>
@@ -156,5 +151,47 @@ const TransactionsForm = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+    flexGrow: 1,
+  },
+  form: {
+    backgroundColor: "#ffffff",
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  segmentedButtons: {
+    marginBottom: 16,
+  },
+  input: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 8,
+  },
+  dateButton: {
+    marginBottom: 16,
+  },
+  calendar: {
+    marginBottom: 16,
+  },
+  submitButton: {
+    marginTop: 16,
+  },
+  deleteButton: {
+    marginTop: 20,
+    alignSelf: "center",
+  },
+});
 
 export default TransactionsForm;

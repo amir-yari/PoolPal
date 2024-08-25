@@ -1,5 +1,7 @@
 // import { useEffect } from "react";
 
+import { Redirect } from "expo-router";
+
 // import * as LocalAuthentication from "expo-local-authentication";
 
 // import { useRouter } from "expo-router";
@@ -21,3 +23,9 @@
 // };
 
 // export default Auth;
+
+const index = () => {
+  return <Redirect href="/(tabs)/poolPal/" />;
+};
+
+export default index;

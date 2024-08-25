@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { ScrollView, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { Avatar, Card, FAB, Text } from "react-native-paper";
 
 import { useRouter } from "expo-router";
 
-import { useTransactionSelector } from "../../store/hooks";
+import { useTransactionSelector } from "../../../store/hooks";
 
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // export const clearAllAsyncStorage = async () => {
