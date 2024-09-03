@@ -6,19 +6,7 @@ import { Avatar, Card, FAB, Text } from "react-native-paper";
 
 import { useRouter } from "expo-router";
 
-import { useTransactionSelector } from "../../../store/hooks";
-
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// export const clearAllAsyncStorage = async () => {
-//   try {
-//     await AsyncStorage.clear();
-//     console.log("All AsyncStorage data has been cleared.");
-//   } catch (error) {
-//     console.error("Error clearing AsyncStorage:", error);
-//   }
-// };
-
-// clearAllAsyncStorage();
+import { useTransactionSelector, useUserSelector } from "../../../store/hooks";
 
 const Tab = () => {
   const router = useRouter();
