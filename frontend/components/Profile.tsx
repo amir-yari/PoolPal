@@ -1,14 +1,17 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { useUserSelector } from "@/store/hooks";
 import auth from "@react-native-firebase/auth";
 
 const Profile = () => {
   const user = useUserSelector((state) => state.user);
+  console.log(user);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.userName}>{user?.displayName || "Guest"}</Text>
+      <Text style={styles.userName}>
+        {user?.displayName || "PoolPal Participant"}
+      </Text>
       <Button
         onPress={() => auth().signOut()}
         mode="contained"

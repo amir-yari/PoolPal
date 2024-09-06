@@ -20,6 +20,7 @@ export default function TabLayout() {
         providerId: user.providerId,
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
+        loggedIn: true,
       };
       userDispatch(userActions.setUser(serializableUser));
     } else {

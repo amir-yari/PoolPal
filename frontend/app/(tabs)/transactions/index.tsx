@@ -19,7 +19,6 @@ import { Picker } from "@react-native-picker/picker";
 
 import {
   useFilterDispatch,
-  useFilterSelector,
   useTransactionSelector,
 } from "../../../store/hooks";
 import { filterActions } from "../../../store/filter-slice";

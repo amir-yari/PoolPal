@@ -6,7 +6,7 @@ import { Avatar, Card, FAB, Text } from "react-native-paper";
 
 import { useRouter } from "expo-router";
 
-import { useTransactionSelector, useUserSelector } from "../../../store/hooks";
+import { useTransactionSelector } from "../../../store/hooks";
 
 const Tab = () => {
   const router = useRouter();

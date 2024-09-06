@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, StyleSheet } from "react-native";
 import { Avatar, SegmentedButtons } from "react-native-paper";
 import Login from "../../../components/Login";
 import Signup from "../../../components/Signup";
 import Profile from "../../../components/Profile";
-import { useUserSelector } from "@/store/hooks";
+import {
+  useTransactionSelector,
+  useUserDispatch,
+  useUserSelector,
+} from "@/store/hooks";
+import {
+  fetchTransactionsFromCloud,
+  syncTransactionsToCloud,
+} from "@/store/transaction-actions";
 
 const Index = () => {
   const [selectedForm, setSelectedForm] = useState("login");
+  const transactions = useTransactionSelector(
+    (state) => state.transaction.items
+  );
   const user = useUserSelector((state) => state.user);
+  const userDispatch = useUserDispatch();
 
-  const isUserLoggedIn = user && Object.keys(user).length > 0 && user.uid;
+  const isUserLoggedIn = user.loggedIn;
+
+  useEffect(() => {
+    const syncAndFetchTransactions = async () => {
+      if (isUserLoggedIn) {
+        await userDispatch(syncTransactionsToCloud(user, transactions));
+        userDispatch(fetchTransactionsFromCloud(user));
+      }
+    };
+
+    syncAndFetchTransactions();
+  }, [userDispatch]);
 
   return (
     <ScrollView style={styles.container}>

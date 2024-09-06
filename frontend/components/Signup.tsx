@@ -38,6 +38,7 @@ const Signup = () => {
           providerId: user.providerId,
           emailVerified: user.emailVerified,
           isAnonymous: user.isAnonymous,
+          loggedIn: true,
         };
         userDispatch(userActions.setUser(serializableUser));
       } else {

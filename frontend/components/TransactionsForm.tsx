@@ -10,9 +10,17 @@ import {
 import { Formik } from "formik";
 import { Calendar } from "react-native-calendars";
 import dayjs from "dayjs";
-import { useTransactionDispatch, useTransactionSelector } from "../store/hooks";
-import { transactionActions } from "../store/transaction-slice";
+import {
+  useTransactionDispatch,
+  useTransactionSelector,
+  useUserSelector,
+} from "../store/hooks";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import {
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+} from "../store/transaction-actions";
 
 const TransactionsForm = () => {
   const router = useRouter();
@@ -25,6 +33,8 @@ const TransactionsForm = () => {
   const transactionDispatch = useTransactionDispatch();
   const [showCalendar, setShowCalendar] = useState(false);
 
+  const user = useUserSelector((state) => state.user);
+
   const handleSubmit = (values: any) => {
     const transactionValues = {
       ...values,
@@ -33,20 +43,21 @@ const TransactionsForm = () => {
     {
       isEditing
         ? transactionDispatch(
-            transactionActions.updateTransaction({
-              ...transactionValues,
-              id: id,
-            })
+            updateTransaction(
+              {
+                ...transactionValues,
+                id: id,
+              },
+              user
+            )
           )
-        : transactionDispatch(
-            transactionActions.addTransaction(transactionValues)
-          );
+        : transactionDispatch(addTransaction(transactionValues, user));
     }
     router.back();
   };
 
   const handleDelete = () => {
-    transactionDispatch(transactionActions.deleteTransaction(id as string));
+    transactionDispatch(deleteTransaction(id as string, user));
     router.back();
   };
 

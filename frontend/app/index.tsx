@@ -1,31 +1,22 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 
-// import * as LocalAuthentication from "expo-local-authentication";
+import * as LocalAuthentication from "expo-local-authentication";
 
-// import { useRouter } from "expo-router";
-
-// const Auth = () => {
-//   const router = useRouter();
-//   console.log("hello");
-
-//     useEffect(() => {
-//       const faceID = async () => {
-//         const { success } = await LocalAuthentication.authenticateAsync();
-//         if (success) {
-//           router.push("/(tabs)/");
-//         }
-//       };
-
-//       faceID();
-//     }, []);
-// };
-
-// export default Auth;
-
-import { Redirect } from "expo-router";
+import { useRouter } from "expo-router";
 
 const index = () => {
-  return <Redirect href="/(tabs)/poolPal/" />;
+  const router = useRouter();
+
+  useEffect(() => {
+    const faceID = async () => {
+      const { success } = await LocalAuthentication.authenticateAsync();
+      if (success) {
+        router.push("/(tabs)/poolPal/");
+      }
+    };
+
+    faceID();
+  }, []);
 };
 
 export default index;

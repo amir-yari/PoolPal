@@ -6,16 +6,10 @@ import dayjs from "dayjs";
 
 type TransactionState = {
   items: Transaction[];
-  selectedTransaction?: Transaction;
 };
 
 const initialState: TransactionState = {
   items: [],
-  selectedTransaction: undefined,
-};
-
-const generateId = () => {
-  return `txn_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 };
 
 export const transactionSlice = createSlice({
@@ -24,11 +18,13 @@ export const transactionSlice = createSlice({
   reducers: {
     setTransactions(state, action: PayloadAction<Transaction[]>) {
       state.items = action.payload;
+      state.items.sort((a, b) => {
+        return dayjs(b.date).valueOf() - dayjs(a.date).valueOf();
+      });
     },
     addTransaction(state, action: PayloadAction<Transaction>) {
       const newTransaction = {
         ...action.payload,
-        id: generateId(),
       };
 
       state.items.push(newTransaction);
@@ -47,11 +43,6 @@ export const transactionSlice = createSlice({
     },
     deleteTransaction(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.id !== action.payload);
-    },
-    setSelectedTransaction(state, action: PayloadAction<string | undefined>) {
-      state.selectedTransaction = state.items.find(
-        (item) => item.id === action.payload
-      );
     },
   },
 });
