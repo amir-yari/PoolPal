@@ -5,7 +5,6 @@ import auth from "@react-native-firebase/auth";
 
 const Profile = () => {
   const user = useUserSelector((state) => state.user);
-  console.log(user);
 
   return (
     <View style={styles.container}>

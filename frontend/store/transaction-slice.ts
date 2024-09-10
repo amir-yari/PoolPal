@@ -44,6 +44,9 @@ export const transactionSlice = createSlice({
     deleteTransaction(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
+    deleteTransactions(state) {
+      return { ...initialState };
+    },
   },
 });
 

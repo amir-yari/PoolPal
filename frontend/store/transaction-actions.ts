@@ -103,7 +103,6 @@ export const syncTransactionsToCloud = (
           );
         })
       );
-      console.log("Transactions synced successfully");
     } catch (error) {
       console.error("Failed to save transactions:", error);
     }

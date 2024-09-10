@@ -6,34 +6,40 @@ import Signup from "../../../components/Signup";
 import Profile from "../../../components/Profile";
 import {
   useTransactionSelector,
-  useUserDispatch,
+  useTransactionDispatch,
   useUserSelector,
 } from "@/store/hooks";
 import {
   fetchTransactionsFromCloud,
   syncTransactionsToCloud,
 } from "@/store/transaction-actions";
+import { transactionActions } from "@/store/transaction-slice";
 
 const Index = () => {
+  const [offlineUser, setOfflineUser] = useState(true);
   const [selectedForm, setSelectedForm] = useState("login");
   const transactions = useTransactionSelector(
     (state) => state.transaction.items
   );
   const user = useUserSelector((state) => state.user);
-  const userDispatch = useUserDispatch();
+  const transactionDispatch = useTransactionDispatch();
 
   const isUserLoggedIn = user.loggedIn;
 
   useEffect(() => {
     const syncAndFetchTransactions = async () => {
-      if (isUserLoggedIn) {
-        await userDispatch(syncTransactionsToCloud(user, transactions));
-        userDispatch(fetchTransactionsFromCloud(user));
+      if (isUserLoggedIn && offlineUser) {
+        await transactionDispatch(syncTransactionsToCloud(user, transactions));
+        transactionDispatch(fetchTransactionsFromCloud(user));
+        setOfflineUser(false);
+      } else if (!offlineUser) {
+        transactionDispatch(transactionActions.deleteTransactions());
+        setOfflineUser(true);
       }
     };
 
     syncAndFetchTransactions();
-  }, [userDispatch]);
+  }, [user]);
 
   return (
     <ScrollView style={styles.container}>

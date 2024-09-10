@@ -24,7 +24,7 @@ export default function TabLayout() {
       };
       userDispatch(userActions.setUser(serializableUser));
     } else {
-      userDispatch(userActions.setUser(null!));
+      userDispatch(userActions.logout());
     }
 
     if (initializing) setInitializing(false);
