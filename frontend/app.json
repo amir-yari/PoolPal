@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "poolPal",
+    "name": "PoolPal",
     "slug": "poolPal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/apple-touch-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -13,6 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "usesAppleSignIn": true,
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app uses the faceid for local authentication"
@@ -22,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.poolPal",
@@ -55,7 +56,9 @@
       ],
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      ["@react-native-google-signin/google-signin"]
+      ["@react-native-google-signin/google-signin"],
+      "expo-font",
+      ["expo-apple-authentication"]
     ],
     "experiments": {
       "typedRoutes": true

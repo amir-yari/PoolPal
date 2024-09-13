@@ -11,6 +11,7 @@ import {
 import {
   GoogleSignin,
   GoogleSigninButton,
+  statusCodes,
 } from "@react-native-google-signin/google-signin";
 
 const Login = () => {
@@ -31,31 +32,58 @@ const Login = () => {
   };
 
   async function onAppleButtonPress() {
-    // 1). start a apple sign-in request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
+    try {
+      // 1). Start an Apple sign-in request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
 
-    // 2). if the request was successful, extract the token and nonce
-    const { identityToken, nonce } = appleAuthRequestResponse;
+      // 2). If the request was successful, extract the token and nonce
+      const { identityToken, nonce } = appleAuthRequestResponse;
 
-    // can be null in some scenarios
-    if (identityToken) {
-      // 3). create a Firebase `AppleAuthProvider` credential
-      const appleCredential = firebase.auth.AppleAuthProvider.credential(
-        identityToken,
-        nonce
-      );
+      // Check if the identityToken is null or undefined
+      if (identityToken) {
+        // 3). Create a Firebase `AppleAuthProvider` credential
+        const appleCredential = firebase.auth.AppleAuthProvider.credential(
+          identityToken,
+          nonce
+        );
 
-      // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
-      //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
-      //     to link the account to an existing user
-      const userCredential = await firebase
-        .auth()
-        .signInWithCredential(appleCredential);
-    } else {
-      // handle this - retry?
+        // 4). Use the created `AppleAuthProvider` credential to sign in with Firebase
+        const userCredential = await firebase
+          .auth()
+          .signInWithCredential(appleCredential);
+        return userCredential; // Return the user credentials if needed
+      } else {
+        throw new Error("Apple sign-in failed: No identity token returned.");
+      }
+    } catch (error: unknown) {
+      // Type narrowing for the 'error' object
+      if (error instanceof Error) {
+        console.error("Apple sign-in error: ", error.message);
+      }
+
+      // Handling Apple-specific error codes (pseudo error codes for demonstration purposes)
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorCode = (error as { code: string }).code;
+
+        switch (errorCode) {
+          case "apple_sign_in_cancelled":
+            console.log("Apple sign-in was cancelled by the user.");
+            break;
+          case "apple_sign_in_in_progress":
+            console.log("Apple sign-in is already in progress.");
+            break;
+          case "apple_sign_in_failed":
+            console.log("Apple sign-in failed. Please try again.");
+            break;
+          default:
+            console.log("An unknown error occurred: ", error);
+        }
+      } else {
+        console.log("An unknown error occurred: ", error);
+      }
     }
   }
 
@@ -65,18 +93,48 @@ const Login = () => {
   });
 
   async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
+    try {
+      // Check if the device supports Google Play
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
 
-    const response = await GoogleSignin.signIn();
-    const idToken = response.data?.idToken;
+      // Initiate Google Sign-In and get the user's ID token
+      const response = await GoogleSignin.signIn();
+      const idToken = response.data?.idToken;
 
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken!);
+      if (!idToken) {
+        throw new Error("No ID token returned from Google sign-in.");
+      }
 
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      return await auth().signInWithCredential(googleCredential);
+    } catch (error: unknown) {
+      // Type narrowing for the 'error' object
+      if (error instanceof Error) {
+        console.error("Google sign-in error: ", error.message);
+      }
+
+      // Handle different error types with specific codes
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorCode = (error as { code: string }).code;
+
+        if (errorCode === statusCodes.SIGN_IN_CANCELLED) {
+          console.log("Sign-in cancelled");
+        } else if (errorCode === statusCodes.IN_PROGRESS) {
+          console.log("Sign-in already in progress");
+        } else if (errorCode === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          console.log("Play Services not available or outdated");
+        } else {
+          console.log("An unknown error occurred: ", error);
+        }
+      } else {
+        console.log("An unknown error occurred: ", error);
+      }
+    }
   }
 
   return (

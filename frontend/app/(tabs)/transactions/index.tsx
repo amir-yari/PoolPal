@@ -114,7 +114,7 @@ const Tab = () => {
       <Button
         mode="outlined"
         onPress={() => setShowPicker(true)}
-        style={{ width: 170, marginLeft: 115, marginTop: 10 }}
+        style={{ width: 170, marginTop: 10, alignSelf: "center" }}
       >
         {dayjs()
           .month(months.indexOf(selectedMonth))
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     margin: 16,
-    right: 150,
+    alignSelf: "center",
     bottom: 0,
   },
   filterButton: {

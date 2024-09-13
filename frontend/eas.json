@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "amirreza.yari@yahoo.com",
+        "ascAppId": "6677022764",
+        "appleTeamId": "6P7Z2J2F63"
+      }
+    }
   }
 }
