@@ -6,7 +6,7 @@
 
 ## Overview
 
-PoolPal is a loacal first mobile app designed to help users track and manage their expenses, income, and investments, with easy-to-use features and a clean interface.
+PoolPal is a local first mobile app designed to help users track and manage their expenses, income, and investments, with easy-to-use features and a clean interface.
 
 ## Features
 
