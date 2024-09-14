@@ -33,4 +33,4 @@ Enhance security with biometric authentication using Face ID or fingerprint, pro
 
 ## License
 
-PoolPal is licensed under the [MIT License](https://github.com/amir-yari/poolPal/blob/main/frontend/License).
+PoolPal is licensed under the [MIT License](https://github.com/amir-yari/poolPal/blob/main/LICENSE).
