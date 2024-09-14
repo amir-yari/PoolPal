@@ -2,7 +2,7 @@
 # PoolPal
 
 ## Download Link
-
+[PoolPal on App Store](https://apps.apple.com/ca/app/poolpal/id6677022764)
 
 ## Overview
 
