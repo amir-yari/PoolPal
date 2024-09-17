@@ -184,8 +184,10 @@ const Login = () => {
           buttonStyle={AppleButton.Style.BLACK}
           buttonType={AppleButton.Type.SIGN_IN}
           style={{
-            width: "100%",
+            width: 330,
             height: 45,
+            marginLeft: 20,
+            marginTop: 5,
           }}
           onPress={() => onAppleButtonPress()}
         />
@@ -193,9 +195,14 @@ const Login = () => {
 
       <GoogleSigninButton
         style={{
-          width: "100%",
-          height: 45,
+          width: 340,
+          height: 50,
+          marginVertical: 16,
+          marginLeft: 15,
+          elevation: 2,
         }}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
         onPress={() => onGoogleButtonPress()}
       />
     </>

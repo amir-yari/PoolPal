@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 
 import { Avatar, Card, FAB, Text } from "react-native-paper";
 
@@ -8,7 +8,10 @@ import { useRouter } from "expo-router";
 
 import { useTransactionSelector } from "../../../store/hooks";
 
+import { useHeaderHeight } from "@react-navigation/elements";
+
 const Tab = () => {
+  const headerHeight = useHeaderHeight();
   const router = useRouter();
 
   const transactions = useTransactionSelector(
@@ -30,19 +33,17 @@ const Tab = () => {
 
   return (
     <>
-      <View className="flex-1">
-        <View className="h-72">
-          <Card style={{ margin: 16 }}>
-            <Card.Title
-              title="Current Balance"
-              left={() => <Avatar.Icon size={50} icon="cash-multiple" />}
-            />
-            <Card.Content>
-              <Text variant="titleLarge">${balance.toFixed(2)}</Text>
-            </Card.Content>
-          </Card>
-        </View>
-      </View>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <Card style={{ margin: 16 }}>
+          <Card.Title
+            title="Current Balance"
+            left={() => <Avatar.Icon size={50} icon="cash-multiple" />}
+          />
+          <Card.Content>
+            <Text variant="titleLarge">${balance.toFixed(2)}</Text>
+          </Card.Content>
+        </Card>
+      </ScrollView>
       <FAB
         icon="plus"
         style={styles.fab}

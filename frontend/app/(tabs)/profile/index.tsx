@@ -14,8 +14,11 @@ import {
   syncTransactionsToCloud,
 } from "@/store/transaction-actions";
 import { transactionActions } from "@/store/transaction-slice";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 const Index = () => {
+  let headerHeight = useHeaderHeight();
+
   const [offlineUser, setOfflineUser] = useState(true);
   const [selectedForm, setSelectedForm] = useState("login");
   const transactions = useTransactionSelector(
@@ -42,7 +45,12 @@ const Index = () => {
   }, [user]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={{ padding: 10 }}
+      contentInsetAdjustmentBehavior="automatic"
+      automaticallyAdjustKeyboardInsets
+      keyboardDismissMode="on-drag"
+    >
       <Avatar.Icon icon={"account"} size={100} style={styles.avatar} />
       {isUserLoggedIn ? (
         <Profile />
@@ -69,9 +77,6 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
   avatar: {
     backgroundColor: "white",
     alignSelf: "center",

@@ -7,6 +7,8 @@ export default function ProfileLayout() {
         name="index"
         options={{
           title: "Profile",
+          headerBlurEffect: "regular",
+          headerTransparent: true,
         }}
       />
     </Stack>

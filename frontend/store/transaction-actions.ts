@@ -70,16 +70,20 @@ export const updateTransaction = (transaction: Transaction, user: User) => {
 
 export const deleteTransaction = (transactionId: string, user: User) => {
   return async (dispatch: AppDispatch) => {
-    try {
-      const transactionDoc = doc(
-        collection(FIRESTORE_DB, `users/${user.uid}/transactions`),
-        transactionId
-      );
-
+    if (!user.uid) {
       dispatch(transactionActions.deleteTransaction(transactionId));
-      await deleteDoc(transactionDoc);
-    } catch (error) {
-      console.error("Failed to delete transaction:", error);
+    } else if (user.uid) {
+      try {
+        const transactionDoc = doc(
+          collection(FIRESTORE_DB, `users/${user.uid}/transactions`),
+          transactionId
+        );
+
+        dispatch(transactionActions.deleteTransaction(transactionId));
+        await deleteDoc(transactionDoc);
+      } catch (error) {
+        console.error("Failed to delete transaction:", error);
+      }
     }
   };
 };
