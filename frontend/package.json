@@ -59,7 +59,8 @@
     "redux-persist": "^6.0.0",
     "uninstall": "^0.0.0",
     "uuid": "^7.0.3",
-    "victory-native": "^41.1.0"
+    "victory-native": "^41.1.0",
+    "expo-updates": "~0.25.24"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
